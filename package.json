@@ -1,0 +1,20 @@
+{
+  "name": "stream.io",
+  "version": "1.0.0",
+  "description": "SSE Stream IO",
+  "homepage": "https://github.com/ssewofficial/stream-mern#readme",
+  "bugs": {
+    "url": "https://github.com/ssewofficial/stream-mern/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ssewofficial/stream-mern.git"
+  },
+  "license": "MIT",
+  "author": "SSE World",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
