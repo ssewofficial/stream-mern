@@ -5,7 +5,7 @@ import { Route } from "../types.js";
 import { getName } from "../lib/name.js";
 
 export const signup: Route = async (req, res) => {
-  const { fullName, email, password } = req.body;
+  const { fullName, userName, email, password } = req.body;
   try {
     if (!fullName || !email || !password) {
       return res.status(400).json({ error: "All fields are required" });
@@ -30,6 +30,7 @@ export const signup: Route = async (req, res) => {
         middleName: name.middleName,
         lastName: name.lastName,
       },
+      userName,
       email,
       password: hashedPassword,
     });
@@ -45,6 +46,7 @@ export const signup: Route = async (req, res) => {
           middleName: newUser.name.middleName,
           lastName: newUser.name.lastName,
         },
+        userName: newUser.userName,
         personalId: newUser.personalId,
         email: newUser.email,
         profilePic: newUser.profilePic || null,
@@ -60,9 +62,11 @@ export const signup: Route = async (req, res) => {
 };
 
 export const login: Route = async (req, res) => {
-  const { email, password } = req.body;
+  const { identifier, password } = req.body;
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({
+      $or: [{ email: identifier }, { userName: identifier }],
+    });
 
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
@@ -82,8 +86,11 @@ export const login: Route = async (req, res) => {
         middleName: user.name.middleName,
         lastName: user.name.lastName,
       },
+      userName: user.userName,
+      personalId: user.personalId,
       email: user.email,
       profilePic: user.profilePic,
+      token: generateToken(user._id, res),
     });
   } catch (error) {
     console.log("Error in login controller", error);

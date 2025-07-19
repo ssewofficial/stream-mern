@@ -21,4 +21,9 @@ const isEmail = (email: string): boolean => {
   return emailRegex.test(email);
 };
 
-export default { isEmail, isFuture, isPast, isToday };
+const isAlphanumeric = (value: string): boolean => {
+  const alphanumericRegex = /^[a-zA-Z0-9]+$/;
+  return alphanumericRegex.test(value);
+};
+
+export default { isEmail, isFuture, isPast, isToday, isAlphanumeric };
