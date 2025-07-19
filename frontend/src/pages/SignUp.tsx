@@ -19,6 +19,7 @@ const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState<SignUpData>({
     fullName: "",
+    userName: "",
     email: "",
     password: "",
   });
@@ -33,6 +34,17 @@ const SignUpPage = () => {
     if (!formData.password) return toast.error("Password is required");
     if (formData.password.length < 6)
       return toast.error("Password must be at least 6 characters");
+    if (!formData.userName.trim()) return toast.error("Username is required");
+    if (formData.userName.length < 3)
+      return toast.error("Username must be at least 3 characters long");
+    if (formData.userName.length > 20)
+      return toast.error("Username must be less than 20 characters long");
+    if (!/^[a-zA-Z0-9_]+$/.test(formData.userName))
+      return toast.error(
+        "Username can only contain letters, numbers, and underscores"
+      );
+    if (formData.userName === "admin")
+      return toast.error("Username 'admin' is not allowed");
 
     return true;
   };
@@ -66,7 +78,7 @@ const SignUpPage = () => {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="form-control">
-              <label className="label">
+              <label className="label" htmlFor="fullName">
                 <span className="label-text font-medium">Full Name</span>
               </label>
               <div className="relative">
@@ -75,6 +87,7 @@ const SignUpPage = () => {
                 </div>
                 <input
                   type="text"
+                  id="fullName"
                   className={`input input-bordered w-full pl-10`}
                   placeholder="John Doe"
                   value={formData.fullName}
@@ -86,7 +99,28 @@ const SignUpPage = () => {
             </div>
 
             <div className="form-control">
-              <label className="label">
+              <label className="label" htmlFor="userName">
+                <span className="label-text font-medium">Username</span>
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <User className="size-5 text-base-content/40" />
+                </div>
+                <input
+                  type="text"
+                  id="userName"
+                  className={`input input-bordered w-full pl-10`}
+                  placeholder="sseworld"
+                  value={formData.userName}
+                  onChange={(e) =>
+                    setFormData({ ...formData, userName: e.target.value })
+                  }
+                />
+              </div>
+            </div>
+
+            <div className="form-control">
+              <label className="label" htmlFor="email">
                 <span className="label-text font-medium">Email</span>
               </label>
               <div className="relative">
@@ -95,6 +129,7 @@ const SignUpPage = () => {
                 </div>
                 <input
                   type="email"
+                  id="email"
                   className={`input input-bordered w-full pl-10`}
                   placeholder="you@example.com"
                   value={formData.email}
@@ -106,7 +141,7 @@ const SignUpPage = () => {
             </div>
 
             <div className="form-control">
-              <label className="label">
+              <label className="label" htmlFor="password">
                 <span className="label-text font-medium">Password</span>
               </label>
               <div className="relative">
@@ -115,6 +150,7 @@ const SignUpPage = () => {
                 </div>
                 <input
                   type={showPassword ? "text" : "password"}
+                  id="password"
                   className={`input input-bordered w-full pl-10`}
                   placeholder="••••••••"
                   value={formData.password}

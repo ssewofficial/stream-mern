@@ -9,7 +9,7 @@ import type { LoginData } from "../types";
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState<LoginData>({
-    email: "",
+    identifier: "",
     password: "",
   });
   const { login, isLoggingIn } = useAuthStore();
@@ -49,12 +49,12 @@ const LoginPage = () => {
                   <Mail className="h-5 w-5 text-base-content/40" />
                 </div>
                 <input
-                  type="email"
+                  type="identifier"
                   className={`input input-bordered w-full pl-10`}
-                  placeholder="you@example.com"
-                  value={formData.email}
+                  placeholder="Email or Username"
+                  value={formData.identifier}
                   onChange={(e) =>
-                    setFormData({ ...formData, email: e.target.value })
+                    setFormData({ ...formData, identifier: e.target.value })
                   }
                 />
               </div>

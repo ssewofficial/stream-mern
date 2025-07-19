@@ -12,18 +12,20 @@ type User = TimeStamp & {
     middleName: string;
     lastName: string;
   };
+  userName: string;
   personalId: string;
   email: string;
   profilePic: string;
 };
 
 export type LoginData = {
-  email: string;
+  identifier: string;
   password: string;
 };
 
 export type SignUpData = {
   fullName: string;
+  userName: string;
   email: string;
   password: string;
 };
