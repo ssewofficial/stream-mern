@@ -1,5 +1,26 @@
 import mongoose from "mongoose";
 
+const nameSchema = new mongoose.Schema(
+  {
+    firstName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    middleName: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+    lastName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+  },
+  { _id: false }
+);
+
 const userSchema = new mongoose.Schema(
   {
     email: {
@@ -9,9 +30,13 @@ const userSchema = new mongoose.Schema(
       trim: true,
       lowercase: true,
     },
-    fullName: {
-      type: String,
+    name: {
+      type: nameSchema,
       required: true,
+    },
+    personalId: {
+      type: String,
+      unique: true,
     },
     password: {
       type: String,
