@@ -14,15 +14,22 @@
   "author": "SSE World",
   "type": "module",
   "main": "./js/index.js",
-  "scripts": {},
+  "scripts": {
+    "start": "nodemon js/index.js",
+    "dev": "nodemon ts/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.9",
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",
+    "@types/morgan": "^1.9.10",
     "@types/multer": "^2.0.0",
     "@types/node": "^24.0.15",
     "@types/socket.io": "^3.0.1",
     "mongoose": "^8.16.4",
+    "morgan": "^1.10.1",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
@@ -35,7 +42,7 @@
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "multer": "^2.0.2",
-    "peerjs": "^1.5.5",
+    "peer": "^1.0.2",
     "socket.io": "^4.8.1"
   }
 }
