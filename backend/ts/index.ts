@@ -8,10 +8,11 @@ import { app, server } from "./lib/socket.js";
 import { errorHandler } from "./middleware/error.js";
 import { notFound } from "./middleware/notfound.js";
 import { CLIENT_URL, PORT } from "./lib/env.js";
+import { connectDB } from "./lib/db.js";
 
 // Routes
 import authRoutes from "./routes/auth.js";
-import { connectDB } from "./lib/db.js";
+import friendRoute from "./routes/friends.js";
 
 connectDB();
 
@@ -46,6 +47,7 @@ peer.on("disconnected", (client) => {
 
 // Allow requests from specific origins
 app.use("/api/auth", authRoutes);
+app.use("/api/friends", friendRoute);
 
 app.use(notFound);
 app.use(errorHandler);

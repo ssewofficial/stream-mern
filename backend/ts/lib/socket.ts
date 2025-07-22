@@ -15,34 +15,20 @@ const io = new Server(server, {
   },
 });
 
+const userSocketMap: { [userId: string]: string } = {};
+
+export function getRecieverSocketId(userId: string) {
+  return userSocketMap[userId];
+}
+
 io.on("connection", (socket) => {
-  console.log("A user connected:", socket.id);
+  const userId = socket.handshake.query.userId as string;
+  if (userId) userSocketMap[userId] = socket.id;
+  io.emit("getOnlineUsers", Object.keys(userSocketMap));
 
-  socket.on("join-room", ({ roomId, users }: JoinRoomPayload) => {
-    socket.join(roomId);
-    console.log(`User ${socket.id} joined room: ${roomId}`);
-
-    // Notify other users in the room
-    socket.to(roomId).emit("user-joined", { userId: socket.id, users });
-
-    socket.on("ping", (timestamp) => {
-      const latency = Date.now() - timestamp;
-      socket.emit("latency", { latency, timestamp });
-    });
-
-    socket.on("send-message", ({ roomId, message }) => {
-      io.to(roomId).emit("message", message);
-    });
-
-    socket.on("leave-room", (roomId) => {
-      socket.leave(roomId);
-      console.log(`User ${socket.id} left room: ${roomId}`);
-    });
-
-    socket.on("disconnect", () => {
-      console.log("User disconnected:", socket.id);
-      socket.to(roomId).emit("user-disconnected", socket.id);
-    });
+  socket.on("disconnect", () => {
+    delete userSocketMap[userId];
+    io.emit("getOnlineUsers", Object.keys(userSocketMap));
   });
 });
 
