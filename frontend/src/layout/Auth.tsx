@@ -1,17 +1,21 @@
-import { useEffect } from "react";
+import React from "react";
 import { Loader } from "lucide-react";
-import { Outlet, useNavigate } from "react-router-dom";
+import * as Dom from "react-router-dom";
 
 import { useAuthStore } from "../store/useAuthStore";
 import Navbar from "../components/Navbar";
 
 const Layout = () => {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
-  const navigate = useNavigate();
+  const navigate = Dom.useNavigate();
 
-  useEffect(() => {
+  React.useEffect(() => {
     checkAuth();
   }, [checkAuth]);
+
+  React.useEffect(() => {
+    if (authUser) navigate("/");
+  }, [authUser, navigate]);
 
   if (isCheckingAuth && !authUser) {
     return (
@@ -21,15 +25,10 @@ const Layout = () => {
     );
   }
 
-  if (authUser) {
-    navigate("/");
-    return null;
-  }
-
   return (
     <>
       <Navbar />
-      <Outlet />
+      <Dom.Outlet />
     </>
   );
 };

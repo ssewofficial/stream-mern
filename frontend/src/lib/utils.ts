@@ -5,3 +5,9 @@ export function formatMessageTime(date: number | string | Date) {
     hour12: false,
   });
 }
+
+export function isPc(): boolean {
+  return !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  );
+}
