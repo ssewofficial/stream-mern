@@ -18,6 +18,12 @@ type User = TimeStamp & {
   profilePic: string;
 };
 
+type Friend = TimeStamp & {
+  userId: string;
+  friendId: User | string;
+  status: "pending" | "accepted" | "blocked";
+};
+
 export type LoginData = {
   identifier: string;
   password: string;
@@ -45,6 +51,24 @@ export type AuthState = {
   updateProfile: (data: any) => Promise<void>;
   connectSocket: () => void;
   disconnectSocket: () => void;
+};
+
+export type FriendState = {
+  friends: Friend[];
+  searchResults: User[];
+  isLoading: boolean;
+  isSendingRequest: boolean;
+  isAcceptingRequest: boolean;
+  isRejectingRequest: boolean;
+  isBlockingFriend: boolean;
+  isSearching: boolean;
+
+  fetchFriends: () => Promise<void>;
+  searchFriends: (query: string) => Promise<void>;
+  sendFriendRequest: (friendId: string) => Promise<void>;
+  acceptFriendRequest: (friendId: string) => Promise<void>;
+  rejectFriendRequest: (friendId: string) => Promise<void>;
+  blockFriend: (friendId: string) => Promise<void>;
 };
 
 export type ThemeState = {
