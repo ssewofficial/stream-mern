@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import User from "../model/user.js";
 import { Route } from "../types.js";
+import { JWT_SECRET } from "../lib/env.js";
 
 export const protectRoute: Route = async (req, res, next) => {
   try {
@@ -11,7 +12,7 @@ export const protectRoute: Route = async (req, res, next) => {
       return res.status(401).json({ message: "Unauthorized - Invalid Token" });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as {
+    const decoded = jwt.verify(token, JWT_SECRET) as {
       userId: string;
     };
 

@@ -9,5 +9,6 @@ router.put("/accept", protectRoute, friend.acceptFriendship);
 router.put("/block", protectRoute, friend.blockFriendship);
 router.delete("/reject", protectRoute, friend.rejectFriendship);
 router.get("/", protectRoute, friend.getFriendship);
+router.get("/search", protectRoute, friend.getSearch);
 
 export default router;

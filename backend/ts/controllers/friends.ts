@@ -121,11 +121,36 @@ export const getFriendship: Route = async (req, res) => {
   try {
     const getUsers = await Friends.find({
       $or: [{ userId: req.user._id }, { friendId: req.user._id }],
-    });
+    })
+      .populate("friendId")
+      .exec();
 
     res.status(200).json(getUsers);
   } catch (error) {
     console.error("Error in getFriendShip: ", error);
     res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+export const getSearch: Route = async (req, res) => {
+  const { query } = req.query;
+
+  if (!query) {
+    return res.status(400).json({ message: "Query parameter is required." });
+  }
+
+  try {
+    const users = await User.find({
+      $or: [
+        { name: { $regex: query, $options: "i" } },
+        { email: { $regex: query, $options: "i" } },
+        { userName: { $regex: query, $options: "i" } },
+      ],
+    }).select("-password");
+
+    return res.status(200).json(users);
+  } catch (error) {
+    console.error("Error searching users:", error);
+    return res.status(500).json({ message: "Error searching users.", error });
   }
 };

@@ -1,7 +1,6 @@
 import { Server } from "socket.io";
 import httpServer from "node:http";
 import express from "express";
-import { JoinRoomPayload } from "../types.js";
 
 const app = express();
 const server = httpServer.createServer(app);
